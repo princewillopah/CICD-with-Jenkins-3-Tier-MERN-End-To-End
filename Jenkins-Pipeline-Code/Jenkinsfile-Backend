@@ -84,29 +84,56 @@ pipeline {
                 git credentialsId: 'Github-cred', url: 'https://github.com/princewillopah/CICD-with-Jenkins-3-Tier-MERN-End-To-End.git'
             }
         }
-        stage('Update Deployment file') {
-            environment {
-                GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
-                GIT_USER_NAME = "princewillopah"
-            }
-            steps {
-                dir('Kubernetes-Manifests-file/Backend') {
-                    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-                        sh '''
-                            git config user.email "princewillopah@gmail.com"
-                            git config user.name "princewillopah"
-                            BUILD_NUMBER=${BUILD_NUMBER}
-                            echo $BUILD_NUMBER
-                            imageTag=$(grep -oP '(?<=backend:)[^ ]+' deployment.yaml)
-                            echo $imageTag
-                            sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
-                            git add deployment.yaml
-                            git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
-                            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
-                        '''
+
+            stage('Update Deployment file') {
+                environment {
+                    GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
+                    GIT_USER_NAME = "princewillopah"
+                }
+                steps {
+                    dir('Kubernetes-Manifests-file/Backend') {
+                        withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                            sh '''
+                                git config user.email "princewillopah@gmail.com"
+                                git config user.name "princewillopah"
+                                BUILD_NUMBER=${BUILD_NUMBER}
+                                echo $BUILD_NUMBER
+                                imageTag=$(grep -oP '(?<=backend:)[^ ]+' deployment.yaml)
+                                echo $imageTag
+                                sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
+                                git add -A  # Include all untracked and tracked changes
+                                git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
+                                git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
+                            '''
+                        }
                     }
                 }
             }
-        }
+
+
+        // stage('Update Deployment file') {
+        //     environment {
+        //         GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
+        //         GIT_USER_NAME = "princewillopah"
+        //     }
+        //     steps {
+        //         dir('Kubernetes-Manifests-file/Backend') {
+        //             withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+        //                 sh '''
+        //                     git config user.email "princewillopah@gmail.com"
+        //                     git config user.name "princewillopah"
+        //                     BUILD_NUMBER=${BUILD_NUMBER}
+        //                     echo $BUILD_NUMBER
+        //                     imageTag=$(grep -oP '(?<=backend:)[^ ]+' deployment.yaml)
+        //                     echo $imageTag
+        //                     sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
+        //                     git add deployment.yaml
+        //                     git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
+        //                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
