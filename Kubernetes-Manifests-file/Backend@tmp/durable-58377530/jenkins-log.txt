@@ -1,0 +1,11 @@
++ git config user.email princewillopah@gmail.com
++ git config user.name princewillopah
++ BUILD_NUMBER=2
++ echo 2
+2
++ grep -oP (?<=backend:)[^ ]+ deployment.yaml
++ imageTag=1
++ echo 1
+1
++ sed -i s/backend:1/backend:2/ deployment.yaml
++ git add -A

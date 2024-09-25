@@ -1,0 +1,56 @@
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://aquasecurity.github.io/trivy/v0.55/docs/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+package-lock.json (npm)
+=======================
+Total: 12 (UNKNOWN: 0, LOW: 0, MEDIUM: 6, HIGH: 4, CRITICAL: 2)
+
+┌────────────────┬────────────────┬──────────┬────────┬───────────────────┬──────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│    Library     │ Vulnerability  │ Severity │ Status │ Installed Version │                      Fixed Version                       │                            Title                             │
+├────────────────┼────────────────┼──────────┼────────┼───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ body-parser    │ CVE-2024-45590 │ HIGH     │ fixed  │ 1.19.0            │ 1.20.3                                                   │ body-parser: Denial of Service Vulnerability in body-parser  │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2024-45590                   │
+├────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ express        │ CVE-2024-29041 │ MEDIUM   │        │ 4.17.1            │ 4.19.2, 5.0.0-beta.3                                     │ express: cause malformed URLs to be evaluated                │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2024-29041                   │
+│                ├────────────────┤          │        │                   ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2024-43796 │          │        │                   │ 4.20.0, 5.0.0                                            │ express: Improper Input Handling in Express Redirects        │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2024-43796                   │
+├────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ mongodb        │ CVE-2021-32050 │          │        │ 3.6.8             │ 3.6.10, 4.17.0, 5.8.0                                    │ Some MongoDB Drivers may erroneously publish events          │
+│                │                │          │        │                   │                                                          │ containing authent ...                                       │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2021-32050                   │
+├────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ mongoose       │ CVE-2022-24304 │ CRITICAL │        │ 5.12.14           │ 6.4.6, 5.13.15                                           │ Mongoose Vulnerable to Prototype Pollution in Schema Object  │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2022-24304                   │
+│                ├────────────────┤          │        │                   ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2023-3696  │          │        │                   │ 7.3.3, 6.11.3, 5.13.20                                   │ Mongoose Prototype Pollution vulnerability                   │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2023-3696                    │
+│                ├────────────────┼──────────┤        │                   ├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2022-2564  │ HIGH     │        │                   │ 6.4.6, 5.13.15                                           │ automattic/mongoose vulnerable to Prototype pollution via    │
+│                │                │          │        │                   │                                                          │ Schema.path                                                  │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2022-2564                    │
+├────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ mpath          │ CVE-2021-23438 │ MEDIUM   │        │ 0.8.3             │ 0.8.4                                                    │ mpath: type confusion can lead to a bypass of CVE-2018-16490 │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2021-23438                   │
+├────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ path-to-regexp │ CVE-2024-45296 │ HIGH     │        │ 0.1.7             │ 1.9.0, 0.1.10, 8.0.0, 3.3.0, 6.3.0                       │ path-to-regexp: Backtracking regular expressions cause ReDoS │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2024-45296                   │
+├────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ qs             │ CVE-2022-24999 │          │        │ 6.7.0             │ 6.10.3, 6.9.7, 6.8.3, 6.7.3, 6.6.1, 6.5.3, 6.4.1, 6.3.3, │ express: "qs" prototype poisoning causes the hang of the     │
+│                │                │          │        │                   │ 6.2.4                                                    │ node process                                                 │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2022-24999                   │
+├────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ send           │ CVE-2024-43799 │ MEDIUM   │        │ 0.17.1            │ 0.19.0                                                   │ send: Code Execution Vulnerability in Send Library           │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2024-43799                   │
+├────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ serve-static   │ CVE-2024-43800 │          │        │ 1.14.1            │ 1.16.0, 2.1.0                                            │ serve-static: Improper Sanitization in serve-static          │
+│                │                │          │        │                   │                                                          │ https://avd.aquasec.com/nvd/cve-2024-43800                   │
+└────────────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────┘
