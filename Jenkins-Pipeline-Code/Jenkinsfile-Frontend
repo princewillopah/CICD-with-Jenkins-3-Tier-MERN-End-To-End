@@ -84,29 +84,65 @@ pipeline {
                 git credentialsId: 'Github-cred', url: 'https://github.com/princewillopah/CICD-with-Jenkins-3-Tier-MERN-End-To-End.git'
             }
         }
-        stage('Update Deployment file') {
-            environment {
-                GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
-                GIT_USER_NAME = "princewillopah"
-            }
-            steps {
-                dir('Kubernetes-Manifests-file/Frontend') {
-                    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-                        sh '''
-                            git config user.email "princewillopah@gmail.com"
-                            git config user.name "princewillopah"
-                            BUILD_NUMBER=${BUILD_NUMBER}
-                            echo $BUILD_NUMBER
-                            imageTag=$(grep -oP '(?<=frontend:)[^ ]+' deployment.yaml)
-                            echo $imageTag
-                            sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
-                            git add deployment.yaml
-                            git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
-                            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
-                        '''
-                    }
-                }
+
+stage('Update Deployment file') {
+    environment {
+        GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
+        GIT_USER_NAME = "princewillopah"
+    }
+    steps {
+        dir('Kubernetes-Manifests-file/Frontend') {
+            withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                sh '''
+                    git config user.email "princewillopah@gmail.com"
+                    git config user.name "princewillopah"
+                    
+                    # Update the deployment.yaml file with the correct region and account ID
+                    sed -i "s|us-east-1|${AWS_DEFAULT_REGION}|g" deployment.yaml
+                    sed -i "s|407622020962|${AWS_ACCOUNT_ID}|g" deployment.yaml
+                    
+                    # Replace the image tag with the build number
+                    imageTag=$(grep -oP '(?<=frontend:)[^ ]+' deployment.yaml)
+                    echo "Updating image from: ${imageTag} to: ${BUILD_NUMBER}"
+                    sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
+                    
+                    git add deployment.yaml
+                    git commit -m "Update deployment.yaml with new image and correct account/region"
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
+                '''
             }
         }
+    }
+}
+
+
+
+
+
+        // stage('Update Deployment file') {
+        //     environment {
+        //         GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
+        //         GIT_USER_NAME = "princewillopah"
+        //     }
+        //     steps {
+        //         dir('Kubernetes-Manifests-file/Frontend') {
+        //             withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+        //                 sh '''
+        //                     git config user.email "princewillopah@gmail.com"
+        //                     git config user.name "princewillopah"
+        //                     BUILD_NUMBER=${BUILD_NUMBER}
+        //                     echo $BUILD_NUMBER
+        //                     imageTag=$(grep -oP '(?<=frontend:)[^ ]+' deployment.yaml)
+        //                     echo $imageTag
+        //                     sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
+        //                     echo "Extracted Image Tag: ${imageTag}"
+        //                     git add deployment.yaml
+        //                     git commit -m "Update deployment Image to version \${BUILD_NUMBER}"
+        //                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
