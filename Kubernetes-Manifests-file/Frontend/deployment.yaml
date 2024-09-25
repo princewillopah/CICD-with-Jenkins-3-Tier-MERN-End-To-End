@@ -29,6 +29,6 @@ spec:
         imagePullPolicy: Always
         env:
           - name: REACT_APP_BACKEND_URL
-            value: "http://princewillopah.org/api/tasks"
+            value: "http://princewill.com.ng/api/tasks"
         ports:
         - containerPort: 3000
