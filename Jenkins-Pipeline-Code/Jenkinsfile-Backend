@@ -85,7 +85,7 @@ pipeline {
             }
         }
 
-stage('Update Deployment file') {
+stage('Update Deployment files') {
     environment {
         GIT_REPO_NAME = "CICD-with-Jenkins-3-Tier-MERN-End-To-End"
         GIT_USER_NAME = "princewillopah"
